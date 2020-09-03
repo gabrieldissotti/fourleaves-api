@@ -1,0 +1,10 @@
+{
+  "name": "fourleaves-api",
+  "version": "0.x.x",
+  "description": "fourleaves api",
+  "main": "src/index.ts",
+  "repository": "git@github.com:gabrieldissotti/fourleaves-api.git",
+  "author": "Gabriel Dissotti <gabrieldnrodrigues@gmail.com>",
+  "license": "MIT",
+  "private": true
+}
