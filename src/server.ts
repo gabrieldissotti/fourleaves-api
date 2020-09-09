@@ -1,7 +1,5 @@
-import express from 'express';
+import app from './app';
 
-const app = express();
-
-app.listen(() => {
+app.listen(3333, () => {
   console.log(`🚀 server was started at ${new Date()}`);
 });

@@ -23,7 +23,9 @@
         "ts": "never"
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "camelcase": "off",
+    "class-methods-use-this": "off"
   },
   "settings": {
     "import/resolver": {

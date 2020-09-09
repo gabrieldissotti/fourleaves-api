@@ -1,3 +1,4 @@
 /dist/*
 /!dist/.gitKeep
 /node_modules
+/.env
