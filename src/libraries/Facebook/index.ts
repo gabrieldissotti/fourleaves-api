@@ -36,7 +36,7 @@ class Library {
         `/${FacebookConfig.apiVersion}/me`,
         {
           params: {
-            fields: 'id,name',
+            fields: 'id,name,picture{url}',
             access_token: userAccessToken,
           },
         },

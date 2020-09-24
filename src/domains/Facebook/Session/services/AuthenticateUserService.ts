@@ -6,16 +6,8 @@ import AccessTokenRepository from '../repositories/AccessTokenRepository';
 
 import { JWTConfig } from '@config/index';
 
-interface Response {
-  user: {
-    id: string;
-    name: string;
-  };
-  token: string;
-}
-
 class AuthenticateUserService {
-  public async execute(code: string): Promise<Response> {
+  public async execute(code: string): Promise<string> {
     const accessTokenRepository = getCustomRepository(AccessTokenRepository);
 
     const { access_token } = await FacebookLibrary.confirmIdentity(code);
@@ -28,6 +20,8 @@ class AuthenticateUserService {
 
     const accessTokenToStore = accessTokenRepository.create({
       user_id: user.id,
+      user_name: user.name,
+      picture_url: user.picture.data.url,
       access_token: access_token,
     });
     await accessTokenRepository.save(accessTokenToStore);
@@ -37,7 +31,7 @@ class AuthenticateUserService {
       expiresIn: JWTConfig.expiresIn,
     });
 
-    return { user, token: jwtToken };
+    return jwtToken;
   }
 }
 

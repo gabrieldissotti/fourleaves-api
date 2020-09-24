@@ -17,6 +17,14 @@ export default class CreateAccessTokens1599613601722
             type: 'varchar',
           },
           {
+            name: 'picture_url',
+            type: 'varchar',
+          },
+          {
+            name: 'user_name',
+            type: 'varchar',
+          },
+          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
