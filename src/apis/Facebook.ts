@@ -54,7 +54,7 @@ class Facebook {
         `/${FacebookConfig.apiVersion}/me/accounts`,
         {
           params: {
-            fields: 'name,id,picture',
+            fields: 'name,id,picture{url},fan_count',
             access_token: userAccessToken,
           },
         },
@@ -64,6 +64,7 @@ class Facebook {
         id: page.id,
         name: page.name,
         thumbnail: page.picture.data.url,
+        likes: page.fan_count,
       }));
 
       return pages;
