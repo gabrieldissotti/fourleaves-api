@@ -1,8 +1,8 @@
-import FacebookLibrary from '@libraries/Facebook';
+import FacebookAPI from '@apis/Facebook';
 import { sign } from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
 
-import AccessTokenRepository from '../repositories/AccessTokenRepository';
+import AccessTokenRepository from '@repositories/AccessTokenRepository';
 
 import { JWTConfig } from '@config/index';
 
@@ -10,9 +10,9 @@ class AuthenticateUserService {
   public async execute(code: string): Promise<string> {
     const accessTokenRepository = getCustomRepository(AccessTokenRepository);
 
-    const { access_token } = await FacebookLibrary.confirmIdentity(code);
+    const { access_token } = await FacebookAPI.confirmIdentity(code);
 
-    const user = await FacebookLibrary.getUser(access_token);
+    const user = await FacebookAPI.getUser(access_token);
 
     if (!user) {
       throw new Error('User not found');

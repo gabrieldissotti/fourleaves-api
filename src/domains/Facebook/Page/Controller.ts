@@ -1,13 +1,26 @@
 import AppController from '@core/AppController';
 import { Request, Response } from 'express';
+import FacebookAPI from '@apis/Facebook';
+import AccessTokenRepository from '@repositories/AccessTokenRepository';
+import { getCustomRepository } from 'typeorm';
 
 class PageController implements AppController {
   public async index(request: Request, response: Response) {
     const { id } = request.user;
 
-    // TODO // continuar a obter página após resolver onde armazenar access_tokens
+    const accessTokenRepository = await getCustomRepository(
+      AccessTokenRepository,
+    );
 
-    return response.json({ user_id: id, access_token: 123 });
+    const { access_token } = await accessTokenRepository.findOne({
+      where: {
+        user_id: id,
+      },
+    });
+
+    const pages = await FacebookAPI.getPages(access_token);
+
+    return response.json(pages);
   }
 }
 

@@ -23,8 +23,9 @@
       "@domains/*": ["./src/domains/*"],
       "@core/*": ["./src/core/*"],
       "@config/*": ["./src/config/*"],
-      "@libraries/*": ["./src/libraries/*"],
-      "@models/*": ["./src/models/*"]
+      "@apis/*": ["./src/apis/*"],
+      "@models/*": ["./src/models/*"],
+      "@repositories/*": ["./src/repositories/*"]
     }
   }
 }

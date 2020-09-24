@@ -2,7 +2,7 @@ import AppController from '@core/AppController';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import AccessTokenRepository from './repositories/AccessTokenRepository';
+import AccessTokenRepository from '@repositories/AccessTokenRepository';
 
 class UserController implements AppController {
   public async show(request: Request, response: Response): Promise<Response> {

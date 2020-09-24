@@ -1,7 +1,7 @@
 import axios, { AxiosInstance } from 'axios';
 import { FacebookConfig } from '@config/index';
 
-class Library {
+class Facebook {
   private agent: AxiosInstance;
 
   constructor() {
@@ -47,6 +47,30 @@ class Library {
       console.log(error);
     }
   }
+
+  public async getPages(userAccessToken: string) {
+    try {
+      const { data: axiosData } = await this.agent.get(
+        `/${FacebookConfig.apiVersion}/me/accounts`,
+        {
+          params: {
+            fields: 'name,id,picture',
+            access_token: userAccessToken,
+          },
+        },
+      );
+
+      const pages = axiosData.data.map(page => ({
+        id: page.id,
+        name: page.name,
+        thumbnail: page.picture.data.url,
+      }));
+
+      return pages;
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
-export default new Library();
+export default new Facebook();
