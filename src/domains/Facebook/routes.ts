@@ -1,15 +1,16 @@
 import { Router } from 'express';
 
-import Session from './Session/routes';
-import Page from './Page/Router';
+import PageController from './controllers/PageController';
+import SessionController from './controllers/SessionController';
+import UserController from './controllers/UserController';
+
 import ensureAuthenticated from './middlewares/ensureAuthenticated';
 
 const routes = Router();
 
-routes.use('/sessions', Session);
+routes.get('/sessions', SessionController.store);
+routes.get('/sessions/me', ensureAuthenticated, UserController.show);
 
-routes.use(ensureAuthenticated);
-
-routes.use('/pages', Page);
+routes.get('/pages', ensureAuthenticated, PageController.index);
 
 export default routes;

@@ -1,6 +1,6 @@
 import AppController from '@core/AppController';
 import { Request, Response } from 'express';
-import AuthenticateUserService from './services/AuthenticateUserService';
+import AuthenticateUserService from '../services/AuthenticateUserService';
 
 import { ConfigFrontend } from '@config/index';
 
