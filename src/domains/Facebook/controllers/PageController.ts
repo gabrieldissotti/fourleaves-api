@@ -18,7 +18,7 @@ class PageController implements AppController {
       },
     });
 
-    const pages = await FacebookAPI.getPages(access_token);
+    const pages = await FacebookAPI.getPagesWithPosts(access_token);
 
     return response.json(pages);
   }

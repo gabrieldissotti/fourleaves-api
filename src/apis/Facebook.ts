@@ -48,13 +48,14 @@ class Facebook {
     }
   }
 
-  public async getPages(userAccessToken: string) {
+  public async getPagesWithPosts(userAccessToken: string) {
     try {
       const { data: axiosData } = await this.agent.get(
         `/${FacebookConfig.apiVersion}/me/accounts`,
         {
           params: {
-            fields: 'name,id,picture{url},fan_count',
+            fields:
+              'id,name,picture{url},fan_count,posts.limit(100){id,message,full_picture,created_time}',
             access_token: userAccessToken,
           },
         },
@@ -65,11 +66,13 @@ class Facebook {
         name: page.name,
         thumbnail: page.picture.data.url,
         likes: page.fan_count,
+        posts: page.posts.data.filter(({ message }) => !!message),
       }));
 
       return pages;
     } catch (error) {
-      console.log(error);
+      console.log(error.message);
+      console.log(error.response.data.error.message);
     }
   }
 }
