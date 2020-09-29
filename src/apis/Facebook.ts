@@ -55,7 +55,7 @@ class Facebook {
         {
           params: {
             fields:
-              'id,name,picture{url},fan_count,posts.limit(100){id,message,full_picture,created_time}',
+              'id,name,picture{url},fan_count,posts.limit(100){id,message,full_picture,created_time,shares,likes.summary(true),comments.summary(true)}',
             access_token: userAccessToken,
           },
         },
@@ -66,7 +66,15 @@ class Facebook {
         name: page.name,
         thumbnail: page.picture.data.url,
         likes: page.fan_count,
-        posts: page.posts.data.filter(({ message }) => !!message),
+        posts: page.posts.data.map(post => ({
+          id: post.id,
+          message: post.message || post.story,
+          full_picture: post.full_picture,
+          created_time: post.created_time,
+          likes: post.likes.summary.total_count,
+          comments: post.comments.summary.total_count,
+          shares: post.shares ? post.shares.count : 0,
+        })),
       }));
 
       return pages;
