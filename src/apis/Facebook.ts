@@ -48,14 +48,33 @@ class Facebook {
     }
   }
 
-  public async getPagesWithPosts(userAccessToken: string) {
+  public async getPagesWithPosts(
+    userAccessToken: string,
+  ): Promise<
+    Array<{
+      id: string;
+      name: string;
+      thumbnail: string;
+      access_token: string;
+      likes: string;
+      posts: Array<{
+        id: string;
+        message: string;
+        full_picture: string;
+        created_time: string;
+        likes: number;
+        comments: number;
+        shares: number;
+      }>;
+    }>
+  > {
     try {
       const { data: axiosData } = await this.agent.get(
         `/${FacebookConfig.apiVersion}/me/accounts`,
         {
           params: {
             fields:
-              'id,name,picture{url},fan_count,posts.limit(100){id,message,full_picture,created_time,shares,likes.summary(true),comments.summary(true)}',
+              'id,name,picture{url},fan_count,access_token,posts.limit(100){id,message,full_picture,created_time,shares,likes.summary(true),comments.summary(true)}',
             access_token: userAccessToken,
           },
         },
@@ -65,6 +84,7 @@ class Facebook {
         id: page.id,
         name: page.name,
         thumbnail: page.picture.data.url,
+        access_token: page.access_token,
         likes: page.fan_count,
         posts: page.posts.data.map(post => ({
           id: post.id,
