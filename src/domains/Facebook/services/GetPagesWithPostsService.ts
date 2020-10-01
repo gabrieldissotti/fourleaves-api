@@ -1,7 +1,6 @@
 import FacebookAPI from '@apis/Facebook';
 import { getCustomRepository } from 'typeorm';
 
-import PageAccessTokenRepository from '@repositories/PageAccessTokenRepository';
 import AccessTokenRepository from '@repositories/AccessTokenRepository';
 import SavePagesAccessTokensService from './SavePagesAccessTokensService';
 
@@ -30,10 +29,6 @@ class GetPagesWithPostsService {
       AccessTokenRepository,
     );
 
-    const pagesAccessTokensRepository = await getCustomRepository(
-      PageAccessTokenRepository,
-    );
-
     const { access_token } = await accessTokensRepository.findOne({
       where: {
         user_id,
@@ -43,7 +38,6 @@ class GetPagesWithPostsService {
     const pages = await FacebookAPI.getPagesWithPosts(access_token);
 
     const savePagesAccessTokensService = new SavePagesAccessTokensService();
-
     savePagesAccessTokensService.execute(user_id, pages);
 
     return pages;
