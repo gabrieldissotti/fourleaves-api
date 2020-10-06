@@ -1,4 +1,6 @@
-import FacebookAPI from '@apis/Facebook';
+import ConfirmIdentity from '@apis/FacebookServices/ConfirmIdentity';
+import GetUserByAccessToken from '@apis/FacebookServices/GetUserByAccessToken';
+
 import { sign } from 'jsonwebtoken';
 import { getCustomRepository } from 'typeorm';
 
@@ -10,9 +12,9 @@ class AuthenticateUserService {
   public async execute(code: string): Promise<string> {
     const accessTokenRepository = getCustomRepository(AccessTokenRepository);
 
-    const { access_token } = await FacebookAPI.confirmIdentity(code);
+    const { access_token } = await new ConfirmIdentity().execute(code);
 
-    const user = await FacebookAPI.getUser(access_token);
+    const user = await new GetUserByAccessToken().execute(access_token);
 
     if (!user) {
       throw new Error('User not found');
@@ -21,7 +23,7 @@ class AuthenticateUserService {
     const accessTokenToStore = accessTokenRepository.create({
       user_id: user.id,
       user_name: user.name,
-      picture_url: user.picture.data.url,
+      picture_url: !!user.picture && user.picture.data.url,
       access_token: access_token,
     });
     await accessTokenRepository.save(accessTokenToStore);

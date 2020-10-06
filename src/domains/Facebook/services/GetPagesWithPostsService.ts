@@ -1,4 +1,4 @@
-import FacebookAPI from '@apis/Facebook';
+import GetPagesWithPostsByUserAccessToken from '@apis/FacebookServices/GetPagesWithPostsByUserAccessToken';
 import { getCustomRepository } from 'typeorm';
 
 import AccessTokenRepository from '@repositories/AccessTokenRepository';
@@ -35,7 +35,9 @@ class GetPagesWithPostsService {
       },
     });
 
-    const pages = await FacebookAPI.getPagesWithPosts(access_token);
+    const pages = await new GetPagesWithPostsByUserAccessToken().execute(
+      access_token,
+    );
 
     const savePagesAccessTokensService = new SavePagesAccessTokensService();
     savePagesAccessTokensService.execute(user_id, pages);
