@@ -31,11 +31,6 @@ class RaffleAUserService {
       new SyncCommentsService().execute(access_token, post_id);
     }
 
-    await new GetCommentsLikesAndSharesFromPost().execute(
-      access_token,
-      post_id,
-    );
-
     const interactions = await new GetCommentsLikesAndSharesFromPost().execute(
       access_token,
       post_id,

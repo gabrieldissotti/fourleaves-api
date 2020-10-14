@@ -20,13 +20,13 @@ class RaffleController implements AppController {
       });
     }
 
-    const pages = await new RaffleAUserService().execute(
+    const winner = await new RaffleAUserService().execute(
       userId,
       postId,
       requirements,
     );
 
-    return response.json(pages);
+    return response.json(winner);
   }
 }
 
