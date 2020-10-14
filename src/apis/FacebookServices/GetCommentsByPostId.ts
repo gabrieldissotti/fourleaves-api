@@ -6,6 +6,7 @@ type Comments = Array<{
   name: string;
   pictureUrl: string;
   user_id: string;
+  post_id: string;
   message: string;
   profileLink?: string;
 }>;
