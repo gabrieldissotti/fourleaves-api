@@ -2,11 +2,13 @@ import GetCommentsLikesAndSharesFromPost from '@apis/FacebookServices/GetComment
 import { getCustomRepository } from 'typeorm';
 
 import PageAccessTokenRepository from '@repositories/PageAccessTokenRepository';
+import SyncCommentsService from './SyncCommentsService';
 
 class RaffleAUserService {
   public async execute(
     user_id: string,
     post_id: string,
+    requirements: string[],
   ): Promise<{
     winner: {
       id: string;
@@ -24,6 +26,15 @@ class RaffleAUserService {
         user_id,
       },
     });
+
+    if (requirements.includes('comment_in_post')) {
+      new SyncCommentsService().execute(access_token, post_id);
+    }
+
+    await new GetCommentsLikesAndSharesFromPost().execute(
+      access_token,
+      post_id,
+    );
 
     const interactions = await new GetCommentsLikesAndSharesFromPost().execute(
       access_token,
