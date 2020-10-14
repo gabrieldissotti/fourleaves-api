@@ -50,6 +50,7 @@ class GetCommentsLikesAndSharesFromPost {
 
       const comments: Comments = axiosData.comments.data.map(comment => ({
         user_id: comment.from.id,
+        post_id: postId,
         name: comment.from.name,
         picture_url: comment.from.picture.data.url,
         message: comment.message,

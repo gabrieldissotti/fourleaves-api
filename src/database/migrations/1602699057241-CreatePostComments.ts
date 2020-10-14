@@ -12,6 +12,11 @@ export class CreatePostComments1602699057241 implements MigrationInterface {
             isPrimary: true,
           },
           {
+            name: 'post_id',
+            type: 'varchar',
+            isPrimary: true,
+          },
+          {
             name: 'name',
             type: 'varchar',
           },
