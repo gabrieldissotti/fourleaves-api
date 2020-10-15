@@ -10,15 +10,15 @@ type GetCommentsLikesAndSharesFromPostResponse = {
     profileLink?: string;
   }>;
   shares: Array<{
-    name: string;
     id: string;
+    name: string;
     pictureUrl: string;
     profileLink?: string;
   }>;
   comments: Array<{
+    id: string;
     name: string;
     pictureUrl: string;
-    id: string;
     message: string;
     profileLink?: string;
   }>;

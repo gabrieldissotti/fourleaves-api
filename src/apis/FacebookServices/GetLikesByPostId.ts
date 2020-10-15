@@ -2,9 +2,8 @@ import { FacebookConfig } from '@config/index';
 
 import GetConfiguredAgent from './GetConfiguredAgent';
 
-type Comments = Array<{
+type Likes = Array<{
   name: string;
-  pictureUrl: string;
   user_id: string;
   post_id: string;
   message: string;
@@ -12,7 +11,7 @@ type Comments = Array<{
 }>;
 
 type Response = {
-  comments: Comments;
+  likes: Likes;
   after?: string;
 };
 
@@ -22,7 +21,7 @@ type Request = {
   after?: string;
 };
 
-class GetCommentsByPostId {
+class GetLikesByPostId {
   public async execute({
     pageAccessToken,
     postId,
@@ -37,30 +36,29 @@ class GetCommentsByPostId {
         `/${FacebookConfig.apiVersion}/${postId}`,
         {
           params: {
-            fields: `comments${afterOrEmpty}.limit(1){from{id,name,link,picture{url}},message}`,
+            fields: `likes${afterOrEmpty}.limit(100){name,id,pic,link}`,
             access_token: pageAccessToken,
           },
         },
       );
 
-      if (!axiosData.comments) {
+      if (!axiosData.likes) {
         return {
-          comments: [],
+          likes: [],
         };
       }
 
-      const comments: Comments = axiosData.comments.data.map(comment => ({
-        user_id: comment.from.id,
+      const likes: Likes = axiosData.likes.data.map(like => ({
+        user_id: like.id,
         post_id: postId,
-        name: comment.from.name,
-        picture_url: comment.from.picture.data.url,
-        message: comment.message,
-        profile_link: comment.link,
+        name: like.name,
+        picture_url: like.pic,
+        profile_link: like.link,
       }));
 
       return {
-        comments,
-        after: axiosData.comments.paging.cursors.after,
+        likes,
+        after: axiosData.likes.paging.cursors.after,
       };
     } catch (error) {
       console.log(error.message);
@@ -69,4 +67,4 @@ class GetCommentsByPostId {
   }
 }
 
-export default GetCommentsByPostId;
+export default GetLikesByPostId;
