@@ -37,7 +37,7 @@ class GetCommentsLikesAndSharesFromPost {
         {
           params: {
             fields:
-              'likes.limit(100){name,id,pic,link},sharedposts.limit(100){from{id,name,link,picture{url}},picture},comments.limit(100){from{id,name,link,picture{url}},message}',
+              'likes.limit(100){name,id,pic,link},sharedposts.limit(100){from{id,name,link,picture{url}}},comments.limit(100){from{id,name,link,picture{url}},message}',
             access_token: pageAccessToken,
           },
         },

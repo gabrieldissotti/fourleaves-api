@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm';
 import PageAccessTokenRepository from '@repositories/PageAccessTokenRepository';
 import SyncCommentsService from './SyncCommentsService';
 import SyncPostLikesService from './SyncPostLikesService';
+import SyncPostSharesService from './SyncPostSharesService';
 
 class RaffleAUserService {
   public async execute(
@@ -34,6 +35,10 @@ class RaffleAUserService {
 
     if (requirements.includes('like_post')) {
       new SyncPostLikesService().execute(access_token, post_id);
+    }
+
+    if (requirements.includes('share_post')) {
+      new SyncPostSharesService().execute(access_token, post_id);
     }
 
     const interactions = await new GetCommentsLikesAndSharesFromPost().execute(
