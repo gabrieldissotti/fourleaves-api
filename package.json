@@ -4,9 +4,12 @@
   "description": "fourleaves api",
   "main": "src/server.ts",
   "repository": "git@github.com:gabrieldissotti/fourleaves-api.git",
-  "author": "Gabriel Dissotti <gabrieldnrodrigues@gmail.com>",
-  "license": "MIT",
-  "private": true,
+  "author": {
+    "name": "Gabriel Dissotti do Nascimento Rodrigues",
+    "email": "gabrieldnrodrigues@gmail.com",
+    "url": "https://github.com/gabrieldissotti"
+  },
+  "license": "Apache 2.0",
   "scripts": {
     "build": "tsc",
     "dev:server": "ts-node-dev --respawn --inspect --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
