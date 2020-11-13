@@ -1,5 +1,4 @@
-import GetCommentsLikesAndSharesFromPost from '@apis/FacebookServices/GetCommentsLikesAndSharesFromPost';
-import { getCustomRepository, Not, IsNull } from 'typeorm';
+import { getCustomRepository } from 'typeorm';
 
 import PageAccessTokenRepository from '@repositories/PageAccessTokenRepository';
 import SyncCommentsService from './SyncCommentsService';
