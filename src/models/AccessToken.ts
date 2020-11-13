@@ -4,12 +4,20 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import User from './User';
 
 @Entity('access_tokens')
 class AccessToken {
   @PrimaryColumn()
   user_id: string;
+
+  @OneToOne(() => User, user => user.access_token)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column()
   access_token: string;

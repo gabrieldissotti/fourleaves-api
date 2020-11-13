@@ -11,7 +11,6 @@ import { JWTConfig } from '@config/index';
 class AuthenticateUserService {
   public async execute(code: string): Promise<string> {
     const { access_token } = await new ConfirmIdentity().execute(code);
-    console.log('access_token', access_token);
 
     const user = await new GetUserByAccessToken().execute(access_token);
 
@@ -33,7 +32,6 @@ class AuthenticateUserService {
 
     await userRepository.save(userToStore);
 
-    console.log('saved');
     const jwtToken = sign({}, JWTConfig.secret, {
       subject: user.id,
       expiresIn: JWTConfig.expiresIn,

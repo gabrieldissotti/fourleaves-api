@@ -13,6 +13,7 @@ routes.get('/facebook/sessions', SessionController.store);
 routes.get('/facebook/sessions/me', ensureAuthenticated, UserController.show);
 
 routes.get('/facebook/pages', ensureAuthenticated, PageController.index);
+
 routes.post('/facebook/raffle', ensureAuthenticated, RaffleController.store);
 
 export default routes;
