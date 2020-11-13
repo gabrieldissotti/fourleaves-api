@@ -2,23 +2,23 @@ import AppController from '@core/AppController';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 
-import AccessTokenRepository from '@repositories/AccessTokenRepository';
+import UserRepository from '@repositories/UserRepository';
 
 class UserController implements AppController {
   public async show(request: Request, response: Response): Promise<Response> {
-    const accessTokenRepository = getCustomRepository(AccessTokenRepository);
+    const userRepository = getCustomRepository(UserRepository);
 
-    const {
-      user_id,
-      user_name,
-      picture_url,
-    } = await accessTokenRepository.findOne({
+    const { id, name, picture_url } = await userRepository.findOne({
       where: {
-        user_id: request.user.id,
+        id: request.user.id,
       },
     });
 
-    return response.json({ user_id, user_name, picture_url });
+    return response.json({
+      user_id: id,
+      user_name: name,
+      picture_url,
+    });
   }
 }
 

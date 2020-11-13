@@ -8,7 +8,6 @@ class SyncPostLikesService {
     pageAccessToken: string,
     post_id: string,
   ): Promise<void> {
-    console.log('entrou aqui');
     const postLikeRepository = await getCustomRepository(PostLikeRepository);
 
     const getLikesByPostIdService = new GetLikesByPostId();
@@ -23,7 +22,16 @@ class SyncPostLikesService {
       });
 
       if (likes.length) {
-        await postLikeRepository.save(likes);
+        await postLikeRepository.save(
+          likes.map(like => ({
+            ...like,
+            user: {
+              id: like.user_id,
+              name: like.name,
+              profile_link: like.profileLink,
+            },
+          })),
+        );
       }
 
       if (after && likes.length) {

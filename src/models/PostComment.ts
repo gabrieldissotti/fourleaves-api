@@ -4,7 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import User from './User';
 
 @Entity('post_comments')
 class PostComment {
@@ -14,17 +18,12 @@ class PostComment {
   @PrimaryColumn()
   post_id: string;
 
-  @Column()
-  name: string;
-
-  @Column()
-  picture_url: string;
+  @ManyToOne(() => User, user => user.post_comments, { cascade: true })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column()
   message: string;
-
-  @Column()
-  profile_link: string;
 
   @CreateDateColumn()
   created_at: Date;

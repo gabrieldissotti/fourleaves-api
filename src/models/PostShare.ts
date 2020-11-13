@@ -4,7 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import User from './User';
 
 @Entity('post_shares')
 class PostShare {
@@ -14,14 +18,9 @@ class PostShare {
   @PrimaryColumn()
   post_id: string;
 
-  @Column()
-  name: string;
-
-  @Column()
-  picture_url: string;
-
-  @Column()
-  profile_link: string;
+  @ManyToOne(() => User, user => user.post_shares, { cascade: true })
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;

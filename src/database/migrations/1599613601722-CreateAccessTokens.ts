@@ -1,4 +1,9 @@
-import { MigrationInterface, QueryRunner, Table } from 'typeorm';
+import {
+  MigrationInterface,
+  QueryRunner,
+  Table,
+  TableForeignKey,
+} from 'typeorm';
 
 export default class CreateAccessTokens1599613601722
   implements MigrationInterface {
@@ -17,14 +22,6 @@ export default class CreateAccessTokens1599613601722
             type: 'varchar',
           },
           {
-            name: 'picture_url',
-            type: 'varchar',
-          },
-          {
-            name: 'user_name',
-            type: 'varchar',
-          },
-          {
             name: 'created_at',
             type: 'timestamp',
             default: 'now()',
@@ -37,9 +34,23 @@ export default class CreateAccessTokens1599613601722
         ],
       }),
     );
+
+    await queryRunner.createForeignKey(
+      'access_tokens',
+      new TableForeignKey({
+        name: 'UserAccessToken',
+        columnNames: ['user_id'],
+        referencedColumnNames: ['id'],
+        referencedTableName: 'users',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      }),
+    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
+    await queryRunner.dropForeignKey('access_tokens', 'UserAccessToken');
+
     await queryRunner.dropTable('access_tokens');
   }
 }

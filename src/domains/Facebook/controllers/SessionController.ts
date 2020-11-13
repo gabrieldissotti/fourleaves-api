@@ -23,20 +23,10 @@ class SessionController implements AppController {
     if (!code) {
       throw new Error('Código inválido');
     }
-    /*
-      [x] obter access token
-      [x] salvar access token no back para consultas futuras, implementando jwt e repository
-      [x] testar se esse fluxo atente mobile
-      [ ]
-      [ ] cifrar data no back e decifrar no front pra não aparecer tudo na url
-      [ ] lidar com erros
-      [ ] adicionar rota pra deslogar
-      [ ] verificar fluxo de login completo pra ver se faltam tratativas
-    */
 
     if (error) {
       console.log(error);
-      throw new Error('facebook returns an error');
+      throw new Error('Facebook returns an error');
     }
 
     const authenticateUserService = new AuthenticateUserService();

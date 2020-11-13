@@ -25,7 +25,17 @@ class SyncPostSharesService {
       }
 
       if (shares.length) {
-        await postShareRepository.save(shares);
+        await postShareRepository.save(
+          shares.map(share => ({
+            ...share,
+            user: {
+              id: share.user_id,
+              name: share.name,
+              picture_url: share.pictureUrl,
+              profile_link: share.profileLink,
+            },
+          })),
+        );
       }
 
       if (after && shares.length) {

@@ -24,7 +24,17 @@ class SyncCommentsService {
       });
 
       if (comments.length) {
-        await postCommentRepository.save(comments);
+        await postCommentRepository.save(
+          comments.map(comment => ({
+            ...comment,
+            user: {
+              id: comment.user_id,
+              name: comment.name,
+              picture_url: comment.pictureUrl,
+              profile_link: comment.profileLink,
+            },
+          })),
+        );
       }
 
       if (after && comments.length) {

@@ -4,7 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import User from './User';
 
 @Entity('post_likes')
 class PostLike {
@@ -14,14 +18,9 @@ class PostLike {
   @PrimaryColumn()
   post_id: string;
 
-  @Column()
-  name: string;
-
-  @Column()
-  picture_url: string;
-
-  @Column()
-  profile_link: string;
+  @ManyToOne(() => User, user => user.post_likes)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @CreateDateColumn()
   created_at: Date;

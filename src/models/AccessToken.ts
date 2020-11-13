@@ -14,12 +14,6 @@ class AccessToken {
   @Column()
   access_token: string;
 
-  @Column()
-  user_name: string;
-
-  @Column()
-  picture_url: string;
-
   @CreateDateColumn()
   created_at: Date;
 

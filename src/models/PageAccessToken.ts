@@ -4,7 +4,11 @@ import {
   PrimaryColumn,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
+  JoinColumn,
 } from 'typeorm';
+
+import User from './User';
 
 @Entity('pages_access_tokens')
 class PageAccessToken {
@@ -13,6 +17,10 @@ class PageAccessToken {
 
   @PrimaryColumn()
   page_id: string;
+
+  @ManyToOne(() => User, user => user.page_access_tokens)
+  @JoinColumn({ name: 'user_id' })
+  user: User;
 
   @Column()
   access_token: string;
