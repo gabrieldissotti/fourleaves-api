@@ -15,7 +15,7 @@ class AccessToken {
   @PrimaryColumn()
   user_id: string;
 
-  @OneToOne(() => User, user => user.access_token)
+  @OneToOne(() => User)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
