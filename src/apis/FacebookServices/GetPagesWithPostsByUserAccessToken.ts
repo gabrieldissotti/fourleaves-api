@@ -31,7 +31,9 @@ class GetPagesWithPostsByUserAccessToken {
         {
           params: {
             fields:
-              'id,name,picture{url},fan_count,access_token,posts.limit(100){id,message,full_picture,created_time,shares,likes.summary(true),comments.summary(true)}',
+              'id,name,picture{url},fan_count,access_token,' +
+              'posts.limit(100){id,message,full_picture,created_time,shares,' +
+              'likes.summary(true),comments.summary(true)}',
             access_token: userAccessToken,
           },
         },
