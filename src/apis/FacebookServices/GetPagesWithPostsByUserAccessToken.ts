@@ -2,6 +2,15 @@ import { FacebookConfig } from '@config/index';
 
 import GetConfiguredAgent from './GetConfiguredAgent';
 
+type Post = {
+  id: string;
+  message: string;
+  full_picture: string;
+  created_time: string;
+  likes: number;
+  comments: number;
+  shares: number;
+};
 class GetPagesWithPostsByUserAccessToken {
   public async execute(
     userAccessToken: string,
@@ -12,15 +21,7 @@ class GetPagesWithPostsByUserAccessToken {
       thumbnail: string;
       access_token: string;
       likes: string;
-      posts: Array<{
-        id: string;
-        message: string;
-        full_picture: string;
-        created_time: string;
-        likes: number;
-        comments: number;
-        shares: number;
-      }>;
+      posts: Array<Post>;
     }>
   > {
     try {
@@ -39,13 +40,15 @@ class GetPagesWithPostsByUserAccessToken {
         },
       );
 
+      const filterJustPublishedPosts = (post: Post) => 'message' in post;
+
       const pages = axiosData.data.map(page => ({
         id: page.id,
         name: page.name,
         thumbnail: page.picture.data.url,
         access_token: page.access_token,
         likes: page.fan_count,
-        posts: page.posts.data.map(post => ({
+        posts: page.posts.data.filter(filterJustPublishedPosts).map(post => ({
           id: post.id,
           message: post.message || post.story,
           full_picture: post.full_picture,
