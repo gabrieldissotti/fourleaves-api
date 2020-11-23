@@ -17,9 +17,7 @@ class AccessToken {
   @Column()
   access_token: string;
 
-  @OneToOne(() => User, () => AccessToken, {
-    cascade: true,
-  })
+  @OneToOne(() => User, user => user.access_token)
   @JoinColumn({ name: 'user_id' })
   user: User;
 

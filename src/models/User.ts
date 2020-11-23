@@ -32,9 +32,7 @@ class User {
   @JoinColumn({ name: 'id' })
   post_comments: PostComment[];
 
-  @OneToOne(() => AccessToken, () => User, {
-    cascade: true,
-  })
+  @OneToOne(() => AccessToken, access_token => access_token.user)
   access_token: AccessToken;
 
   @OneToMany(

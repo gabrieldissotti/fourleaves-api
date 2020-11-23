@@ -7,6 +7,7 @@ import { getCustomRepository } from 'typeorm';
 import UserRepository from '@repositories/UserRepository';
 
 import { JWTConfig } from '@config/index';
+import AccessTokenRepository from '@repositories/AccessTokenRepository';
 
 class AuthenticateUserService {
   public async execute(code: string): Promise<string> {
@@ -20,18 +21,21 @@ class AuthenticateUserService {
       }
 
       const userRepository = getCustomRepository(UserRepository);
+      const accessTokenRepository = getCustomRepository(AccessTokenRepository);
 
       const userToStore = userRepository.create({
         id: user.id,
         name: user.name,
         picture_url: !!user.picture && user.picture.data.url,
-        access_token: {
-          user_id: user.id,
-          access_token,
-        },
+      });
+
+      const accessTokenToStore = accessTokenRepository.create({
+        user_id: user.id,
+        access_token,
       });
 
       await userRepository.save(userToStore);
+      await accessTokenRepository.save(accessTokenToStore);
 
       const jwtToken = sign({}, JWTConfig.secret, {
         subject: user.id,
