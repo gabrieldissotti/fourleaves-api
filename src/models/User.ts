@@ -21,15 +21,12 @@ class User {
   id: string;
 
   @OneToMany(() => PostShare, post_share => post_share.user)
-  @JoinColumn({ name: 'id' })
   post_shares: PostShare[];
 
-  @OneToMany(() => PostLike, post_likes => post_likes.user, { cascade: true })
-  @JoinColumn({ name: 'id' })
+  @OneToMany(() => PostLike, post_likes => post_likes.user)
   post_likes: PostLike[];
 
   @OneToMany(() => PostComment, post_comments => post_comments.user)
-  @JoinColumn({ name: 'id' })
   post_comments: PostComment[];
 
   @OneToOne(() => AccessToken, access_token => access_token.user)
@@ -38,9 +35,7 @@ class User {
   @OneToMany(
     () => PageAccessToken,
     page_access_tokens => page_access_tokens.user,
-    { cascade: true },
   )
-  @JoinColumn({ name: 'id' })
   page_access_tokens: PageAccessToken;
 
   @Column()
