@@ -2,6 +2,7 @@ import { getCustomRepository } from 'typeorm';
 
 import GetLikesByPostId from '@apis/FacebookServices/GetLikesByPostId';
 import PostLikeRepository from '@repositories/PostLikeRepository';
+import UserRepository from '@repositories/UserRepository';
 
 class SyncPostLikesService {
   public async execute(
@@ -9,6 +10,7 @@ class SyncPostLikesService {
     post_id: string,
   ): Promise<void> {
     const postLikeRepository = await getCustomRepository(PostLikeRepository);
+    const userRepository = await getCustomRepository(UserRepository);
 
     const getLikesByPostIdService = new GetLikesByPostId();
 
@@ -22,16 +24,17 @@ class SyncPostLikesService {
       });
 
       if (likes.length) {
-        await postLikeRepository.save(
+        const usersToSave = await userRepository.create(
           likes.map(like => ({
-            ...like,
-            user: {
-              id: like.user_id,
-              name: like.name,
-              profile_link: like.profileLink,
-            },
+            id: like.user_id,
+            name: like.name,
+            profile_link: like.profileLink,
           })),
         );
+        await userRepository.save(usersToSave);
+
+        const postLikesToStore = await postLikeRepository.create(likes);
+        await postLikeRepository.save(postLikesToStore);
       }
 
       if (after && likes.length) {
