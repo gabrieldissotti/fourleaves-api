@@ -84,6 +84,9 @@ class RaffleAUserService {
         pictureUrl: picture_url,
         profileLink: profile_link,
       },
+      statistics: {
+        ranked_users_amount: ratedUsers.length,
+      },
     };
 
     return response;
