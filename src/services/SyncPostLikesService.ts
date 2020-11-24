@@ -4,45 +4,79 @@ import GetLikesByPostId from '@apis/FacebookServices/GetLikesByPostId';
 import PostLikeRepository from '@repositories/PostLikeRepository';
 import UserRepository from '@repositories/UserRepository';
 
+type Likes = Array<{
+  name: string;
+  user_id: string;
+  post_id: string;
+  message: string;
+  profileLink?: string;
+}>;
+
 class SyncPostLikesService {
+  private postLikeRepository: PostLikeRepository;
+  private userRepository: UserRepository;
+  private getLikesByPostIdService: GetLikesByPostId;
+
+  constructor() {
+    this.postLikeRepository = getCustomRepository(PostLikeRepository);
+    this.userRepository = getCustomRepository(UserRepository);
+    this.getLikesByPostIdService = new GetLikesByPostId();
+  }
+
   public async execute(
     pageAccessToken: string,
     post_id: string,
   ): Promise<void> {
-    const postLikeRepository = await getCustomRepository(PostLikeRepository);
-    const userRepository = await getCustomRepository(UserRepository);
+    await this.recursiveSync(pageAccessToken, post_id);
+  }
 
-    const getLikesByPostIdService = new GetLikesByPostId();
+  async recursiveSync(
+    pageAccessToken: string,
+    post_id: string,
+    afterParam?: string,
+  ): Promise<void> {
+    console.log(`recursiveSync ${afterParam}`);
 
-    async function recursiveSync(afterParam?: string) {
-      console.log(`recursiveSync ${afterParam}`);
+    const { likes, after } = await this.getLikesByPostIdService.execute({
+      pageAccessToken,
+      postId: post_id,
+      ...(afterParam && { after: afterParam }),
+    });
 
-      const { likes, after } = await getLikesByPostIdService.execute({
-        pageAccessToken,
-        postId: post_id,
-        ...(afterParam && { after: afterParam }),
-      });
-
-      if (likes.length) {
-        const usersToSave = await userRepository.create(
-          likes.map(like => ({
-            id: like.user_id,
-            name: like.name,
-            profile_link: like.profileLink,
-          })),
-        );
-        await userRepository.save(usersToSave);
-
-        const postLikesToStore = await postLikeRepository.create(likes);
-        await postLikeRepository.save(postLikesToStore);
-      }
-
-      if (after && likes.length) {
-        await recursiveSync(after);
-      }
+    if (!likes.length) {
+      return;
     }
 
-    recursiveSync();
+    await this.saveUsers(likes);
+
+    await this.saveLikes(likes);
+
+    if (after) {
+      await this.recursiveSync(pageAccessToken, post_id, after);
+    }
+  }
+
+  private async saveUsers(likes: Likes) {
+    const usersObjects = likes.map(like => ({
+      id: like.user_id,
+      name: like.name,
+      profile_link: like.profileLink,
+    }));
+
+    const usersEntities = await this.userRepository.create(usersObjects);
+
+    await this.userRepository.save(usersEntities);
+  }
+
+  private async saveLikes(likes: Likes) {
+    const likesObjects = likes.map(like => ({
+      user_id: like.user_id,
+      post_id: like.post_id,
+    }));
+
+    const likesEntities = await this.postLikeRepository.create(likesObjects);
+
+    await this.postLikeRepository.save(likesEntities);
   }
 }
 
