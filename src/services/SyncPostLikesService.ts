@@ -40,7 +40,7 @@ class SyncPostLikesService {
     const { likes, after } = await this.getLikesByPostIdService.execute({
       pageAccessToken,
       postId: post_id,
-      ...(afterParam && { after: afterParam }),
+      after: afterParam,
     });
 
     if (!likes.length) {
