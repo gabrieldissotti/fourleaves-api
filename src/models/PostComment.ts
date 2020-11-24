@@ -18,7 +18,7 @@ class PostComment {
   @PrimaryColumn()
   post_id: string;
 
-  @ManyToOne(() => User, user => user.post_comments, { cascade: true })
+  @ManyToOne(() => User, user => user.post_comments)
   @JoinColumn({ name: 'user_id' })
   user: User;
 
