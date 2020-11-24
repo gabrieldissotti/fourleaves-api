@@ -36,7 +36,7 @@ class GetSharesByPostId {
         `/${FacebookConfig.apiVersion}/${postId}`,
         {
           params: {
-            fields: `sharedposts${afterOrEmpty}.limit(1){from{id,name,link,picture{url}}}`,
+            fields: `sharedposts${afterOrEmpty}.limit(100){from{id,name,link,picture{url}}}`,
             access_token: pageAccessToken,
           },
         },

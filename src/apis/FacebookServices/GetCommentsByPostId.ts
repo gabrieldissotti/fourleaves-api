@@ -37,7 +37,7 @@ class GetCommentsByPostId {
         `/${FacebookConfig.apiVersion}/${postId}`,
         {
           params: {
-            fields: `comments${afterOrEmpty}.limit(1){from{id,name,link,picture{url}},message}`,
+            fields: `comments${afterOrEmpty}.limit(100){from{id,name,link,picture{url}},message}`,
             access_token: pageAccessToken,
           },
         },
