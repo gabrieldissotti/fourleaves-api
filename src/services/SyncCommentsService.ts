@@ -36,26 +36,32 @@ class SyncCommentsService {
     post_id: string,
     afterParam?: string,
   ) {
-    console.log(`recursiveSync ${afterParam}`);
+    try {
+      console.log(`recursiveSync ${afterParam}`);
 
-    const { comments, after } = await this.getCommentsByPostIdService.execute({
-      pageAccessToken,
-      postId: post_id,
-      after: afterParam,
-    });
+      const { comments, after } = await this.getCommentsByPostIdService.execute(
+        {
+          pageAccessToken,
+          postId: post_id,
+          after: afterParam,
+        },
+      );
 
-    if (!comments.length) {
-      return;
-    }
+      if (!comments.length) {
+        return;
+      }
 
-    const filteredComments = this.filterACommentByUser(comments);
+      const filteredComments = this.filterACommentByUser(comments);
 
-    await this.saveUsers(filteredComments);
+      await this.saveUsers(filteredComments);
 
-    await this.saveComments(filteredComments);
+      await this.saveComments(filteredComments);
 
-    if (after) {
-      await this.recursiveSync(pageAccessToken, post_id, after);
+      if (after) {
+        await this.recursiveSync(pageAccessToken, post_id, after);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

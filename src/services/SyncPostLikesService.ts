@@ -35,24 +35,28 @@ class SyncPostLikesService {
     post_id: string,
     afterParam?: string,
   ): Promise<void> {
-    console.log(`recursiveSync ${afterParam}`);
+    try {
+      console.log(`recursiveSync ${afterParam}`);
 
-    const { likes, after } = await this.getLikesByPostIdService.execute({
-      pageAccessToken,
-      postId: post_id,
-      after: afterParam,
-    });
+      const { likes, after } = await this.getLikesByPostIdService.execute({
+        pageAccessToken,
+        postId: post_id,
+        after: afterParam,
+      });
 
-    if (!likes.length) {
-      return;
-    }
+      if (!likes.length) {
+        return;
+      }
 
-    await this.saveUsers(likes);
+      await this.saveUsers(likes);
 
-    await this.saveLikes(likes);
+      await this.saveLikes(likes);
 
-    if (after) {
-      await this.recursiveSync(pageAccessToken, post_id, after);
+      if (after) {
+        await this.recursiveSync(pageAccessToken, post_id, after);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 

@@ -35,26 +35,30 @@ class SyncPostSharesService {
     post_id: string,
     afterParam?: string,
   ) {
-    console.log(`recursiveSync ${afterParam}`);
+    try {
+      console.log(`recursiveSync ${afterParam}`);
 
-    const { shares, after } = await this.getSharesByPostIdService.execute({
-      pageAccessToken,
-      postId: post_id,
-      after: afterParam,
-    });
+      const { shares, after } = await this.getSharesByPostIdService.execute({
+        pageAccessToken,
+        postId: post_id,
+        after: afterParam,
+      });
 
-    if (!shares.length) {
-      return;
-    }
+      if (!shares.length) {
+        return;
+      }
 
-    const filteredShares = this.filterAShareByUser(shares);
+      const filteredShares = this.filterAShareByUser(shares);
 
-    this.saveUsers(filteredShares);
+      this.saveUsers(filteredShares);
 
-    this.saveShares(filteredShares);
+      this.saveShares(filteredShares);
 
-    if (after) {
-      await this.recursiveSync(pageAccessToken, post_id, after);
+      if (after) {
+        await this.recursiveSync(pageAccessToken, post_id, after);
+      }
+    } catch (error) {
+      console.log(error);
     }
   }
 
