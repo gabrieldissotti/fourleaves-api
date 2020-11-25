@@ -47,11 +47,7 @@ class RaffleAUserService {
 
     const userRepository = await getCustomRepository(UserRepository);
 
-    // TODO filter by post_id
-
-    const users = await userRepository.find({
-      relations: ['post_likes', 'post_shares', 'post_comments'],
-    });
+    const users = await userRepository.getUsersWithInteractions(post_id);
 
     const ratedUsers = users.filter(user => {
       const requirementsMet = [];
