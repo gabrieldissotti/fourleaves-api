@@ -18,6 +18,9 @@ class RaffleAUserService {
       pictureUrl: string;
       profileLink?: string;
     };
+    statistics: {
+      ranked_users_amount: number;
+    };
   }> {
     const pageAccessTokensRepository = await getCustomRepository(
       PageAccessTokenRepository,
@@ -68,6 +71,20 @@ class RaffleAUserService {
 
       return userIsRated;
     });
+
+    if (!ratedUsers.length) {
+      return {
+        winner: {
+          id: '0',
+          name: 'Ninguém',
+          profileLink: '',
+          pictureUrl: '',
+        },
+        statistics: {
+          ranked_users_amount: 0,
+        },
+      };
+    }
 
     const randomIndex = Math.floor(Math.random() * ratedUsers.length);
 
