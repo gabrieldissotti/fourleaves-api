@@ -11,8 +11,8 @@ module.exports = {
       ref  : 'origin/master',
       repo : 'git@github.com:gabrieldissotti/fourleaves-api.git',
       path : '/var/apis/sorteiu_api',
-      'pre-deploy-local': 'yarn build',
-      'post-deploy' : 'yarn && pm2 reload ecosystem.config.js --env production',
+      'pre-deploy-local': '',
+      'post-deploy' : 'yarn && yarn build && pm2 reload ecosystem.config.js --env production',
       'pre-setup': ''
     }
   }
