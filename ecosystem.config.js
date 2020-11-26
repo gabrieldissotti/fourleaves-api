@@ -13,7 +13,7 @@ module.exports = {
       path : '/var/apis/sorteiu_api',
       'pre-deploy-local': '',
       'post-deploy' : 'yarn && yarn build && pm2 reload ecosystem.config.js --env production',
-      'pre-setup': ''
+      'pre-setup': 'cp .env ./dist/src/'
     }
   }
 };
