@@ -13,7 +13,9 @@
   "scripts": {
     "build": "tsc --project tsconfig.json && tscpaths -p tsconfig.json -s . -o ./dist",
     "dev:server": "ts-node-dev --respawn --inspect --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
-    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
+    "deploy:production:setup": "pm2 deploy ecosystem.config.js production setup",
+    "deploy:production": "pm2 deploy ecosystem.config.js production"
   },
   "dependencies": {
     "axios": "^0.20.0",
