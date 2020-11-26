@@ -1,7 +1,8 @@
 module.exports = {
   apps : [{
     script: './dist/src/server.js',
-    watch: './dist/src/'
+    watch: './dist/src/',
+    cwd: './dist/src/',
   }],
 
   deploy : {
@@ -13,7 +14,7 @@ module.exports = {
       path : '/var/apis/sorteiu_api',
       'pre-deploy-local': '',
       'post-deploy' : 'yarn && yarn build && pm2 reload ecosystem.config.js --env production && cp .env ./dist/src/',
-      'pre-setup': ''
+      'pre-setup': '',
     }
   }
 };
