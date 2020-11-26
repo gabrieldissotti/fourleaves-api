@@ -2,7 +2,7 @@ module.exports = {
   apps : [{
     script: './dist/src/server.js',
     watch: './dist/src/',
-    cwd: './dist/src/',
+    cwd: "/var/apis/sorteiu_api/current/dist/src/"
   }],
 
   deploy : {
