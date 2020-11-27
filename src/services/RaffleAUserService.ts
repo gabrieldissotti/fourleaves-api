@@ -48,29 +48,12 @@ class RaffleAUserService {
 
     await Promise.all(sync);
 
-    const userRepository = await getCustomRepository(UserRepository);
+    const userRepository = getCustomRepository(UserRepository);
 
-    const users = await userRepository.getUsersWithInteractions(post_id);
-
-    const ratedUsers = users.filter(user => {
-      const requirementsMet = [];
-
-      if (requirements.includes('share_post')) {
-        requirementsMet.push(!!user.post_shares.length);
-      }
-
-      if (requirements.includes('like_post')) {
-        requirementsMet.push(!!user.post_likes.length);
-      }
-
-      if (requirements.includes('comment_in_post')) {
-        requirementsMet.push(!!user.post_comments.length);
-      }
-
-      const userIsRated = !requirementsMet.includes(false);
-
-      return userIsRated;
-    });
+    const ratedUsers = await userRepository.getRatedUsers(
+      post_id,
+      requirements,
+    );
 
     if (!ratedUsers.length) {
       return {
