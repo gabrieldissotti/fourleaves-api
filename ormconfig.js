@@ -11,8 +11,8 @@ module.exports = {
   password: process.env.DATABASE_PASSWORD || 'fourleaves',
   database: process.env.DATABASE_NAME || 'fourleaves',
   logging: process.env.DATABASE_LOGGING === 'true',
-  entities: [ __dirname +"./src/models/*"+extensionFiles],
-  migrations: [__dirname +"./src/database/migrations/*"+extensionFiles],
+  entities: [ __dirname +"/dist/src/models/*"+extensionFiles],
+  migrations: [__dirname +"/dist/src/database/migrations/*"+extensionFiles],
   logging: true,
   cli: {
     "migrationsDir": "./src/database/migrations"
