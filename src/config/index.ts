@@ -1,3 +1,6 @@
+import { version } from '../../package.json';
+console.log(`API version is ${version}`);
+
 export const FacebookConfig = {
   baseURL: 'https://graph.facebook.com',
   appId: process.env.FACEBOOK_APP_ID,

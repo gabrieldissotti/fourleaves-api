@@ -1,6 +1,6 @@
 {
   "name": "fourleaves-api",
-  "version": "0.x.x",
+  "version": "0.0.1",
   "description": "fourleaves api",
   "main": "src/server.ts",
   "repository": "git@github.com:gabrieldissotti/fourleaves-api.git",
@@ -15,7 +15,9 @@
     "dev:server": "ts-node-dev --respawn --inspect --ignore-watch node_modules -r tsconfig-paths/register src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "deploy:production:setup": "pm2 deploy ecosystem.config.js production setup",
-    "deploy:production": "pm2 deploy ecosystem.config.js production"
+    "deploy:production": "pm2 deploy ecosystem.config.js production",
+    "update:version": "yarn bump --all --commit --tag --push",
+    "release": "yarn update:version && yarn deploy:production"
   },
   "dependencies": {
     "axios": "^0.20.0",
@@ -27,6 +29,7 @@
     "typeorm": "^0.2.25"
   },
   "devDependencies": {
+    "@jsdevtools/version-bump-prompt": "^6.1.0",
     "@types/express": "^4.17.8",
     "@types/jsonwebtoken": "^8.5.0",
     "@typescript-eslint/eslint-plugin": "^4.0.1",
