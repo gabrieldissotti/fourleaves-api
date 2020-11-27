@@ -42,13 +42,13 @@ class GetPagesWithPostsByUserAccessToken {
 
       const filterJustPublishedPosts = (post: Post) => 'message' in post;
 
-      const pages = axiosData.data.map(page => ({
+      const pages = axiosData?.data.map(page => ({
         id: page.id,
         name: page.name,
-        thumbnail: page.picture.data.url,
+        thumbnail: page.picture?.data.url,
         access_token: page.access_token,
         likes: page.fan_count,
-        posts: page.posts.data.filter(filterJustPublishedPosts).map(post => ({
+        posts: page.posts?.data.filter(filterJustPublishedPosts).map(post => ({
           id: post.id,
           message: post.message || post.story,
           full_picture: post.full_picture,
