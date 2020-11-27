@@ -2,7 +2,7 @@ export const FacebookConfig = {
   baseURL: 'https://graph.facebook.com',
   appId: process.env.FACEBOOK_APP_ID,
   apiVersion: 'v8.0',
-  redirectURI: 'http://localhost:3333/facebook/sessions/',
+  redirectURI: process.env.FACEBOOK_REDIRECT_URI,
   clientSecret: process.env.FACEBOOK_CLIENT_SECRET,
 };
 
@@ -12,5 +12,5 @@ export const JWTConfig = {
 };
 
 export const ConfigFrontend = {
-  baseURL: 'http://localhost:19006',
+  baseURL: process.env.FRONTEND_URL,
 };
