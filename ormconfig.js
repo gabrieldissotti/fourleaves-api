@@ -1,7 +1,8 @@
 require('dotenv/config')
 
 const extensionFiles = process.env.NODE_ENV === 'development' ? '.ts' : '.js'
-
+console.log('extensionFiles', extensionFiles)
+console.log('__dirname', __dirname)
 module.exports = {
   type: 'postgres',
   host: process.env.DATABASE_HOST || 'localhost',
