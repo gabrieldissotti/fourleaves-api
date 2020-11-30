@@ -5,7 +5,6 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   OneToMany,
-  JoinColumn,
   OneToOne,
 } from 'typeorm';
 import AccessToken from './AccessToken';

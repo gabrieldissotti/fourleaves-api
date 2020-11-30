@@ -7,6 +7,7 @@ import {
   OneToOne,
   JoinColumn,
 } from 'typeorm';
+
 import User from './User';
 
 @Entity('access_tokens')
