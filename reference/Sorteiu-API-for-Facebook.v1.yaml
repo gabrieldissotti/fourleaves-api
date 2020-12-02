@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Sorteiu API for Facebook
+  version: 0.0.4
+  contact:
+    name: Gabriel Dissotti
+    email: gabrieldnrodrigues@gmail.com
+    url: 'https://www.linkedin.com/in/gabrieldissotti/'
+  license:
+    name: Apache 2.0
+    url: 'https://github.com/gabrieldissotti/fourleaves-api/blob/master/LICENSE'
+  termsOfService: 'https://docs.google.com/document/d/1A12b9gqPzI3lZmxhwVwUn3uCGzZ8fsvDkOssX1tGH6E/edit'
+  description: 'Fazer sorteios no facebook automaticamente, sem planilhas!'
+servers:
+  - url: 'http://localhost:3333'
+    description: localhost
+paths:
+  /facebook/sessions:
+    parameters: []
+    get:
+      summary: Get User Info by User ID
+      tags: []
+      responses:
+        '200':
+          description: Resposta para dispositivos móveis que receberam via WebView
+          content:
+            text/html:
+              schema:
+                type: string
+              examples:
+                Aplicativo autorizado:
+                  value: |-
+                    <script>
+                      const token = 'fakeJwtToken123';
+                      window.ReactNativeWebView.postMessage(token)
+                    </script>
+        '301':
+          description: 'Resposta para aplicativos web, redirecionando para a url do frontend na versão web com o parametro ?token na query, sendo esse o token jwt autorizado.'
+      operationId: get-users-userId
+      description: Receber via redirecionamento resultado da validação feita pelo facebook e retornar o status para o frontend juntamente com um token JWT para requisições futuras se houver autorização.
+      parameters:
+        - schema:
+            type: string
+          in: query
+          name: error
+          description: 'Se o facebook retornar um erro, será visivel nesse parametrô'
+        - schema:
+            type: string
+          in: query
+          name: code
+          description: Código de acesso do usuário autenticado no facebook para requisições futuras feitas apenas pelo backend
+        - schema:
+            type: string
+          in: query
+          name: state
+          description: Objeto usado para saber de qual plataforma vem a requisição e dadis de validação entre o frontend e o backend para previnir de ataques CSRF e outros.
+components:
+  schemas: {}
