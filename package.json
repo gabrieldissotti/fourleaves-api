@@ -1,6 +1,6 @@
 {
   "name": "fourleaves-api",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "fourleaves api",
   "main": "src/server.ts",
   "repository": "git@github.com:gabrieldissotti/fourleaves-api.git",
