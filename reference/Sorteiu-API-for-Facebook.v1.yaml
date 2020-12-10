@@ -43,7 +43,7 @@ paths:
             type: string
           in: query
           name: error
-          description: 'Se o facebook retornar um erro, será visivel nesse parametrô'
+          description: 'Se o Facebook retornar um erro, será visível nesse parâmetro'
         - schema:
             type: string
           in: query
